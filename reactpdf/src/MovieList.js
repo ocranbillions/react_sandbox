@@ -3,6 +3,7 @@ import Axios from "axios";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 // import { API_KEY } from "./constants";
 import { PdfDocument } from "./Movie";
+import expensesArray from './data';
 
 const years = [
   { value: "2010", text: "2010" },
@@ -17,9 +18,7 @@ const years = [
   { value: "2019", text: "2019" }
 ];
 
-
 const API_KEY = 'b180f9f2e1b24f25905334df9a354e3d';
-// const year = 2017;
 
 export default function MovieList() {
   const [year, setYear] = useState("");
@@ -32,7 +31,9 @@ export default function MovieList() {
       let res = await Axios(
         `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&primary_release_year=${year}&sort_by=vote_average.desc`
       );
+      // console.log(expensesArray);
       setDetails(res.data.results);
+      // setDetails(expensesArray);
       setHide(true)
     } catch (error) {
       console.log(error);
