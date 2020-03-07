@@ -1,24 +1,26 @@
 import React, { Component } from 'react'
 import './styles.css'
 
+const initialState = {
+    username: '',
+    email: '',
+    password: '',
+    password2: '',
+
+    usernameError: null,
+    emailError: null,
+    passwordError: null,
+    password2Error: null,
+
+    disableSubmit: true,
+};
+
+
 class FormValidator extends Component {
     constructor(props) {
         super(props);
-        this.state = this.initialState;
+        this.state = initialState;
     }
-    initialState = {
-        username: '',
-        email: '',
-        password: '',
-        password2: '',
-
-        usernameError: null,
-        emailError: null,
-        passwordError: null,
-        password2Error: null,
-
-        // disableSubmit: true,
-    };
 
     handleInputChange = (event) => {
         const field = event.target.id;
@@ -32,34 +34,75 @@ class FormValidator extends Component {
             case 'username':
                 const validUsername = (value.length >= 3);
                 this.setState({
+                    ...this.state,
                     username: value,
                     usernameError: validUsername ? '' : 'Username must be at least 3',
-                })
+                }, () => { this.checkButtonState() })
                 break;
             case 'email':
                 const emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 this.setState({
+                    ...this.state,
                     email: value,
                     emailError: emailValid ? '' : 'Email is invalid',
-                })
+                }, () => { this.checkButtonState() })
                 break;
             case 'password':
                 const validPassword = (value.length >= 6);
                 this.setState({
+                    ...this.state,
                     password: value,
                     passwordError: validPassword ? '' : 'Password must be at least 6 characters',
-                })
+                    password2Error: (value === this.state.password2) ? '' : 'Passwords do not match',
+                }, () => { this.checkButtonState() })
+
                 break;
             case 'password2':
                 const validPassword2 = (value === this.state.password);
                 this.setState({
+                    ...this.state,
                     password2: value,
                     password2Error: validPassword2 ? '' : 'Passwords do not match',
-                })
+                }, () => { this.checkButtonState() })
                 break;
           default:
             break;
         }
+    }
+
+    checkButtonState = () => {
+        const { 
+            usernameError,
+            emailError, 
+            passwordError, 
+            password2Error } = this.state;
+
+        // Enable submit button if no errors in user inputs
+        if(usernameError === "" && 
+            emailError === "" && 
+            passwordError === "" && 
+            password2Error === "")
+        {
+            this.setState({
+                ...this.state,
+                disableSubmit: false,
+            })
+
+        } else {
+            this.setState({
+                ...this.state,
+                disableSubmit: true,
+            })
+        }
+    }
+
+    handleFormSubmission = (event) => {
+        event.preventDefault();
+
+        // clear fields
+        this.setState(initialState)
+        alert('success')
+
 
         // const { 
         //     usernameError,
@@ -72,35 +115,13 @@ class FormValidator extends Component {
         //     passwordError === "" && 
         //     password2Error === "")
         // {
-        //     console.log('workings....')
-        //     this.setState({
-        //         disableSubmit: false,
-        //     })
+        //     // clear fields
+        //     this.setState(initialState)
+        //     alert('success')
 
+        // } else {
+        //     alert('incorrect form fields')
         // }
-        
-    }
-
-    handleFormSubmission = (event) => {
-        event.preventDefault();
-        const { 
-            usernameError,
-            emailError, 
-            passwordError, 
-            password2Error } = this.state;
-
-        if(usernameError === "" && 
-            emailError === "" && 
-            passwordError === "" && 
-            password2Error === "")
-        {
-            // clear fields
-            this.setState(this.initialState)
-            alert('success')
-
-        } else {
-            alert('incorrect form fields')
-        }
     }
 
 
@@ -144,9 +165,9 @@ class FormValidator extends Component {
                         />
                         <small>{password2Error}</small>
                     </div>
-                    <button type="submit">Submit</button>
-                    {/* <button type="submit" disabled={this.state.disableSubmit}>Submit</button> */}
-                </form>
+                    {/* <button type="submit">Submit</button> */}
+                    <button type="submit" disabled={this.state.disableSubmit} className={`${this.state.disableSubmit ? 'disabled' : 'enabled'}`}>Submit</button>
+                </form> 
             </div>
         )
     }
