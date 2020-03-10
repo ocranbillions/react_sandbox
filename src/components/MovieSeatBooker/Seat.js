@@ -21,8 +21,14 @@ class Seat extends Component {
         // and not occupied
         if(this.state.selected && !this.state.occupied) {
             this.props.countSelectedSeats(1)
+
+            // Add seat to selectedSeats Array
+            this.props.updateSelectedSeatsArray(this.props.id, 'addItem')
         } else if(!this.state.occupied){
             this.props.countSelectedSeats(-1)
+
+            // Remove seat from selectedSeats array
+            this.props.updateSelectedSeatsArray(this.props.id, 'removeItem')
         }
     }
 

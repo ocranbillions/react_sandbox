@@ -11,6 +11,7 @@ class MovieSeatBooker extends Component {
             totalOccupiedSeats: 4,
             totalAmount: 0,
             priceOfSelectedMovie: 10,
+            selectedSeatsIndexes: [],
         }; 
     }
 
@@ -26,6 +27,15 @@ class MovieSeatBooker extends Component {
             ...this.state,
             priceOfSelectedMovie: event.target.value,
         })
+    }
+
+    updateSelectedSeatsArray = (seatId, action) => {
+        if(action === 'addItem') {
+            this.state.selectedSeatsIndexes.push(seatId);
+        }else if(action === 'removeItem') {
+            const index = this.state.selectedSeatsIndexes.indexOf(seatId);
+            this.state.selectedSeatsIndexes.splice(index, 1);
+        }
     }
 
     render() {
@@ -61,44 +71,14 @@ class MovieSeatBooker extends Component {
                         <div className="screen"></div>
 
                         <div className="row">
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats} occupied={true}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats} occupied={true} />
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                        </div>
-                        <div className="row">
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats} occupied={true}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats} occupied={true} />
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                        </div>
-                        <div className="row">
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                        </div>
-                        <div className="row">
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
-                            <Seat countSelectedSeats={this.countSelectedSeats}/>
+                            <Seat id={1} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
+                            <Seat id={2} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
+                            <Seat id={3} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
+                            <Seat id={4} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
+                            <Seat id={5} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
+                            <Seat id={6} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray} occupied={true}/>
+                            <Seat id={7} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray} occupied={true} />
+                            <Seat id={8} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
                         </div>
                     </div>
 
