@@ -9,10 +9,19 @@ class MovieSeatBooker extends Component {
         this.state = {
             totalSelectedSeats: 0,
             totalOccupiedSeats: 4,
-            totalAmount: 0,
-            priceOfSelectedMovie: 10,
-            selectedSeatsIndexes: [],
+            priceOfSelectedMovie: "10",
+            selectedSeats: [],
         }; 
+    }
+
+    componentDidMount() {
+        this.setState({
+            ...this.state,
+            selectedSeats: (JSON.parse(localStorage.getItem('selectedSeats')) !== null) ? JSON.parse(localStorage.getItem('selectedSeats')) : [],
+            priceOfSelectedMovie: (JSON.parse(localStorage.getItem('priceOfSelectedMovie')) !== null) ? JSON.parse(localStorage.getItem('priceOfSelectedMovie')) : "10",
+            
+            // Set totalSelectedSeats after selectedSeats state has been updated from localStorage
+        }, () => this.setState({totalSelectedSeats: this.state.selectedSeats.length,}))
     }
 
     countSelectedSeats = (value) => {
@@ -26,29 +35,36 @@ class MovieSeatBooker extends Component {
         this.setState({
             ...this.state,
             priceOfSelectedMovie: event.target.value,
-        })
+           }, () => {
+                localStorage.setItem('priceOfSelectedMovie', JSON.stringify(this.state.priceOfSelectedMovie))
+           })
     }
 
     updateSelectedSeatsArray = (seatId, action) => {
         if(action === 'addItem') {
-            this.state.selectedSeatsIndexes.push(seatId);
+            this.state.selectedSeats.push(seatId);
+
+            localStorage.setItem('selectedSeats', JSON.stringify(this.state.selectedSeats));
         }else if(action === 'removeItem') {
-            const index = this.state.selectedSeatsIndexes.indexOf(seatId);
-            this.state.selectedSeatsIndexes.splice(index, 1);
+            const index = this.state.selectedSeats.indexOf(seatId);
+            this.state.selectedSeats.splice(index, 1);
+
+            localStorage.setItem('selectedSeats', JSON.stringify(this.state.selectedSeats));
         }
     }
 
     render() {
+        const { priceOfSelectedMovie } = this.state;
         return (
             <div className="app-body">
                 <div className="container">
                     <div className="movie-container">
                         <label>Pick a movie:</label>
                         <select id="movie" onChange={this.selectMovie}>
-                            <option value="10">Avengers: Endgame ($10)</option>
-                            <option value="12">Joker ($12)</option>
-                            <option value="8">Toy Story 4 ($8)</option>
-                            <option value="9">The Lion King ($9)</option>
+                            <option value="10" selected={priceOfSelectedMovie === "10"}>Avengers: Endgame ($10)</option>
+                            <option value="12" selected={priceOfSelectedMovie === "12"}>Joker ($12)</option>
+                            <option value="8" selected={priceOfSelectedMovie === "8"}>Toy Story 4 ($8)</option>
+                            <option value="9" selected={priceOfSelectedMovie === "9"}>The Lion King ($9)</option>
                         </select>
                     </div>
 
@@ -71,14 +87,56 @@ class MovieSeatBooker extends Component {
                         <div className="screen"></div>
 
                         <div className="row">
-                            <Seat id={1} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
-                            <Seat id={2} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
-                            <Seat id={3} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
-                            <Seat id={4} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
-                            <Seat id={5} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
-                            <Seat id={6} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray} occupied={true}/>
-                            <Seat id={7} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray} occupied={true} />
-                            <Seat id={8} countSelectedSeats={this.countSelectedSeats} updateSelectedSeatsArray={this.updateSelectedSeatsArray}/>
+                            <Seat
+                                id={1}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                            />
+                            <Seat
+                                id={2}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                            />
+                            <Seat
+                                id={3}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                            />
+                            <Seat
+                                id={4}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                            />
+                            <Seat
+                                id={5}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                            />
+                            <Seat
+                                id={6}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                                occupied={true}
+                            />
+                            <Seat
+                                id={7}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                                occupied={true}
+                            />
+                            <Seat
+                                id={8}
+                                countSelectedSeats={this.countSelectedSeats}
+                                updateSelectedSeatsArray={this.updateSelectedSeatsArray}
+                                selectedSeats={this.state.selectedSeats}
+                            />
                         </div>
                     </div>
 

@@ -9,6 +9,16 @@ class Seat extends Component {
         }; 
     }
 
+    componentDidUpdate(prevProps, prevState){
+        if(prevProps.selectedSeats !== this.props.selectedSeats) {
+            const { selectedSeats, id } = this.props;
+            this.setState({
+                ...this.state,
+                selected: (selectedSeats.indexOf(id) > -1) ? true : false,
+            })
+        }
+    }
+
     toggleSelect = () => {
         this.setState({
             ...this.state,
