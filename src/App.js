@@ -3,7 +3,8 @@ import {BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 // import FormValidator from './components/FormValidator/FormValidator';
 // import MovieSeatBooker from './components/MovieSeatBooker/MovieSeatBooker';
 // import ModalMenuSlider from './components/ModalMenuSlider/ModalMenuSlider';
-import ExchangeRateCalculator from './components/ExchangeRate/ExchangeRate'
+// import ExchangeRateCalculator from './components/ExchangeRate/ExchangeRate'
+import LyricsSearch from './components/LyricsSearch/LyricsSearch'
 
 
 class App extends Component {
@@ -16,7 +17,8 @@ class App extends Component {
            {/* <Route exact path='/' component={FormValidator} />
            <Route exact path='/movie' component={MovieSeatBooker} /> */}
            {/* <Route exact path='/modal' component={ModalMenuSlider} /> */}
-           <Route exact path='/exchangerate' component={ExchangeRateCalculator} />
+           {/* <Route exact path='/exchangerate' component={ExchangeRateCalculator} /> */}
+           <Route exact path='/lyrics' component={LyricsSearch} />
           </Switch>
         </Router>
       </div>
